@@ -1,0 +1,23 @@
+---
+- name: Deploy
+  hosts: [localhost]
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /usr/bin/python2
+    application: nginxblue
+  tasks:
+    - name: create instances
+      include_role: 
+        name: create_instance
+    - name: setup DNS
+      include_role:
+        name: route53
+
+#- name: ELB tasks
+#  hosts: [localhost]
+#  vars:
+#    ansible_python_interpreter: /usr/bin/python3
+#  tasks:
+#    - name: target group
+#      include_role:
+#        name: target_group

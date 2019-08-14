@@ -1,0 +1,16 @@
+- name: Setup ELB target group
+  elb_target_group:
+    name: a1
+    protocol: http
+    port: 81
+    vpc_id: vpc-01ae4e6a
+    health_check_path: /
+    successful_response_codes: "200,250-260"
+    targets:
+      - Id: i-052b7fffbe3e42caf
+        Port: 80
+      - Id: i-06cfe80895045460f
+        Port: 80
+    region: us-east-2
+    state: present
+    wait: False

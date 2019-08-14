@@ -1,0 +1,21 @@
+- name: Extract instance ids
+  shell: cat ~/ec2_ids.txt
+  register: ec2_instance_ids
+  become: yes
+  become_user: root
+
+- name: Setup ELB target group
+  elb_target_group:
+    name: a1
+    protocol: http
+    port: 81
+    vpc_id: vpc-01ae4e6a
+    health_check_path: /
+    successful_response_codes: "200,250-260"
+    targets:
+      - Id: "{{ item }}"
+        Port: 80
+    region: us-east-2
+    state: present
+    wait: False
+  with_items: "{{ ec2_instances.instance_ids }}"
